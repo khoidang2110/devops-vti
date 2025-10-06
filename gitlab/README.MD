@@ -34,3 +34,17 @@ docker run --detach \
 5. Retrieve Initial Root Password
 
 docker exec -it gitlab cat /etc/gitlab/initial_root_password
+
+
+
+Case dùng docker compose:
+
+# Cài đặt plugin Docker Compose
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+
+# Cấp quyền thực thi
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+# Kiểm tra version
+docker compose version
