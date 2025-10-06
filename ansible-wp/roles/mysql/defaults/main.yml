@@ -1,0 +1,10 @@
+mysql_os_family_packages:
+  Debian:
+    repo_pkg: []
+    server_pkg: ["mysql-server"]
+    client_pkg: ["mysql-client"]
+  RedHat:
+    repo_pkg:
+      - https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+    server_pkg: ["mysql-community-server"]
+    client_pkg: ["mysql-community-client"]

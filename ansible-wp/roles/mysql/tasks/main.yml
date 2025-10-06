@@ -1,0 +1,51 @@
+- name: Install MariaDB server
+  ansible.builtin.yum:
+    name:
+      - mariadb105-server
+    state: present
+    update_cache: yes
+  async: 300
+  poll: 10
+
+- name: Install python3-pip
+  ansible.builtin.yum:
+    name: python3-pip
+    state: present
+    update_cache: yes
+
+- name: Install PyMySQL via pip
+  ansible.builtin.pip:
+    name: PyMySQL
+
+- name: Enable and start MariaDB service
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Configure MariaDB to listen on all interfaces
+  ansible.builtin.lineinfile:
+    path: /etc/my.cnf
+    regexp: '^bind-address'
+    line: 'bind-address = 0.0.0.0'
+    state: present
+  notify: Restart MariaDB
+
+- name: Create MySQL database
+  community.mysql.mysql_db:
+    name: "{{ wp_db_name }}"
+    state: present
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
+- name: Create MySQL user with remote access
+  community.mysql.mysql_user:
+    name: "{{ wp_db_user }}"
+    password: "{{ wp_db_pass }}"
+    priv: "{{ wp_db_name }}.*:ALL"
+    host: "%"
+    state: present
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    login_user: root
+    login_password: "{{ mysql_root_password }}"

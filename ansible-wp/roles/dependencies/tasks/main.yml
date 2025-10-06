@@ -1,0 +1,15 @@
+- name: Remove curl-minimal if present
+  ansible.builtin.yum:
+    name: curl-minimal
+    state: absent
+
+- name: Update yum cache and install dependencies 💖
+  ansible.builtin.yum:
+    name:
+      - php-fpm
+      - php-mysqlnd
+      - unzip
+      - curl
+      - tree
+    state: present
+    update_cache: yes

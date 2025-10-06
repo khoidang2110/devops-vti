@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rancher
+  namespace: cattle-system
+spec:
+  replicas: {{ .Values.rancher.replicas }}
+  selector:
+    matchLabels:
+      app: rancher
+  template:
+    metadata:
+      labels:
+        app: rancher
+    spec:
+      serviceAccountName: rancher
+      containers:
+      - name: rancher
+        image: {{ .Values.rancher.image }}
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        env:
+        - name: CATTLE_BOOTSTRAP_PASSWORD
+          value: {{ .Values.rancher.bootstrapPassword }}
+        - name: CATTLE_SERVER_URL
+          value: https://rancher.52.0.205.167.nip.io

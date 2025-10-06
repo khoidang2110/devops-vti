@@ -1,0 +1,21 @@
+[mysqld]
+port = {{ mysql_port }}
+bind-address = {{ mysql_bind_address }}
+
+# InnoDB tuning (tối thiểu)
+innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
+innodb_log_file_size = {{ mysql_innodb_log_file_size }}
+innodb_flush_log_at_trx_commit = 1
+innodb_file_per_table = 1
+
+# Connection
+max_connections = {{ mysql_max_connections }}
+sql_mode = STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+
+# Charset
+character-set-server = utf8mb4
+collation-server = utf8mb4_0900_ai_ci
+
+# Logging cơ bản
+log_error_verbosity = 2
+

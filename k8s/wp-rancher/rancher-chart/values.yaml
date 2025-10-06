@@ -1,0 +1,4 @@
+rancher:
+  image: rancher/rancher:v2.10-head
+  replicas: 1
+  bootstrapPassword: admin123

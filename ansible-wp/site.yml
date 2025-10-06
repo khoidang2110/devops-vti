@@ -1,0 +1,21 @@
+---
+- name: Deploy WordPress to development environment
+  hosts: web
+  become: yes
+  roles:
+       - role: dependencies
+       - role: nginx
+       - role: wordpress
+  tags: web
+- name: Provision MySQL servers
+  hosts: database
+  become: yes
+  roles:
+       - role: mysql
+  tags: database
+- name: loadbalancer provisioning
+  hosts: lb
+  become: yes
+  roles: 
+      - role: lb
+  tags: lb

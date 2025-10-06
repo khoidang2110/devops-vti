@@ -1,0 +1,15 @@
+mysql:
+  image: mysql:8.0
+  rootPassword: rootpassword
+  database: wordpress
+  user: wordpress
+  password: wordpress123
+  storage: 5Gi
+  storageClass: ""
+
+wordpress:
+  image: wordpress:6.4-apache
+  replicas: 1
+  storage: 5Gi
+  storageClass: ""
+  serviceType: LoadBalancer

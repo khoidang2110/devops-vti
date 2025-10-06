@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: 10.0.0.154:80/library/mysql:8.0
+    container_name: wp-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: 10.0.0.154:80/library/wordpress:php8.1-fpm
+    container_name: wp-app
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+
+  nginx:
+    image: 10.0.0.154:80/library/nginx:1.26.2
+    container_name: wp-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - wp_data:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - wordpress
+
+volumes:
+  db_data:
+  wp_data:

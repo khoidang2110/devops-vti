@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.wordpress.storage }}
+  {{- if .Values.wordpress.storageClass }}
+  storageClassName: {{ .Values.wordpress.storageClass }}
+  {{- end }}

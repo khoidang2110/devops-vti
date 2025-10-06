@@ -1,0 +1,17 @@
+---
+# Database variables
+wp_db_name: 'wp_db'
+wp_db_user: 'ansible'
+wp_db_pass: 'ans@123!'
+mysql_root_password: 'ans@123!'
+
+db_host: '10.0.0.28'
+
+  # WordPress variables
+wp_site_name: 'Dev WordPress Site'
+server_name: 54.79.64.75
+upstream_servers:
+  - "10.0.0.49"
+  - "10.0.0.25"
+listen_port: 80
+proxy_pass_scheme: http

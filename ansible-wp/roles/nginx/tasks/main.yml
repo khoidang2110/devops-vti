@@ -1,0 +1,72 @@
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Start and enable nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+    
+- name: Copy Nginx configuration file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/wordpress.conf
+  notify: Reload Nginx
+
+- name: Ensure PHP-FPM pool runs as nginx
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^user ='
+    line: 'user = nginx'
+    state: present
+  become: yes
+
+- name: Ensure PHP-FPM pool group is nginx
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^group ='
+    line: 'group = nginx'
+    state: present
+  become: yes
+
+- name: Ensure PHP-FPM pool socket owner is nginx
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^listen.owner ='
+    line: 'listen.owner = nginx'
+    state: present
+  become: yes
+
+- name: Ensure PHP-FPM pool socket group is nginx
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^listen.group ='
+    line: 'listen.group = nginx'
+    state: present
+  become: yes
+
+- name: Ensure PHP-FPM pool socket mode is 0660
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^listen.mode ='
+    line: 'listen.mode = 0660'
+    state: present
+  become: yes
+
+- name: Remove listen.acl_users from PHP-FPM pool config
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '^listen.acl_users'
+    state: absent
+  become: yes
+
+- name: Restart PHP-FPM after config change
+  service:
+    name: php-fpm
+    state: restarted
+  become: yes
+
+

@@ -1,0 +1,43 @@
+# nếu là private ip thì đổi thành private ip:
+hostname: 10.0.0.154
+
+# ✅ BẬT HTTP (bắt buộc phải có)
+http:
+  port: 80
+
+harbor_admin_password: Harbor12345
+
+database:
+  password: root123
+
+data_volume: /data
+
+log:
+  level: info
+  local:
+    rotate_count: 50
+    rotate_size: 200M
+    location: /var/log/harbor
+
+# Cấu hình jobservice đầy đủ
+jobservice:
+  max_job_workers: 10
+  job_loggers:
+    - STD_OUTPUT
+    - FILE
+  logger_sweeper_duration: 300
+  webhook_job_max_retry: 3
+  webhook_job_http_client_timeout: 30
+
+# Cấu hình notification
+notification:
+  webhook_job_max_retry: 3
+  webhook_job_http_client_timeout: 30
+
+# Cấu hình trivy
+trivy:
+  ignore_unfixed: false
+  skip_update: false
+  offline_scan: false
+  security_check: vuln
+  insecure: false
