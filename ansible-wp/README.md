@@ -1,3 +1,4 @@
+```
 AWS WordPress Cluster với Ansible
 
 Mục tiêu: Triển khai kiến trúc WordPress cluster trên AWS với:
@@ -34,3 +35,4 @@ LB public, WordPress private nhận traffic từ LB
 Notes
 Private IP có thể thay đổi khi stop/start EC2
 Nếu DB cần update package, thêm NAT Gateway cho private subnet
+```
